@@ -2,9 +2,7 @@ package simplejersey;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.servlet.GuiceFilter;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -26,7 +24,7 @@ public class App
         // Our Guice injector
         Injector injector = Guice.createInjector( new HelloWorldModule() );
 
-        // We set the injector for our jersey integration feature
+        // We set the injector for our jersey integration feature (using global variable, ah!)
         GuiceIntegrationFeature.guiceInjector = injector;
 
         // Our resource configuration for jersey
@@ -36,7 +34,7 @@ public class App
         rc.register( HelloWorldResource.class );
         // ADD HERE!
         // rc.register( PeopleResource.class );
-        // rc.register( PeoplePurchases.class );
+        // rc.register( PeoplePurchasesResource.class );
         // ...
 
         // This container (which is a servlet) will route requests to our resources
@@ -51,7 +49,7 @@ public class App
         ServletHandler sh = new ServletHandler();
         // and register an jersey resource config (which is wrapped in a ServletContainer which is wrapped in
         // a ServletHolder)
-        sh.addServletWithMapping( h, "/" );
+        sh.addServletWithMapping( h, "/*" );
 
         // The simplest possibly jetty server
         Server server = new Server(8080);
@@ -62,7 +60,7 @@ public class App
         server.join();
     }
 
-    // Bridge Guice into jersey's HK2 dependency framework instance.
+    // Bridge Guice into jersey's HK2 dependency framework instance, I suppose.
     public static class GuiceIntegrationFeature implements javax.ws.rs.core.Feature {
 
         public static Injector guiceInjector;

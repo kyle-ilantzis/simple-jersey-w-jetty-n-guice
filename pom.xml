@@ -24,7 +24,7 @@
 
 	  <!--
 		  Here we include jersey.
-		We will be using jersey with servlets for jetty so we need the servlet container
+		  We will be using jersey with servlets for jetty so we need the servlet container artifact
 	   -->
 	  <dependency>
 		  <groupId>org.glassfish.jersey.containers</groupId>
@@ -42,7 +42,7 @@
 	  </dependency>
 
 	  <!--
-	  	To use servlets with jetty
+	  	To use servlets with jetty we add this artifact
 	  -->
 	  <dependency>
 		  <groupId>org.eclipse.jetty</groupId>
@@ -50,19 +50,26 @@
 		  <version>9.1.0.v20131115</version>
 	  </dependency>
 
+	  <!--
+	  	Guice!
+	  -->
 	  <dependency>
 		  <groupId>com.google.inject</groupId>
 		  <artifactId>guice-parent</artifactId>
 		  <version>3.0</version>
 	  </dependency>
 
+	  <!--
+	    Make HK2 use guice or delagate to guice?
+	  -->
 	  <dependency>
-		  <groupId>com.google.inject.extensions</groupId>
-		  <artifactId>guice-servlet</artifactId>
-		  <version>3.0</version>
+		  <groupId>org.glassfish.hk2</groupId>
+		  <artifactId>guice-bridge</artifactId>
+		  <version>2.2.0-b20</version>
 	  </dependency>
-
-
+	  <!--
+	  	Guice bridge needs the following artifacts
+	  -->
 	  <dependency>
 		  <groupId>org.glassfish.hk2</groupId>
 		  <artifactId>hk2-locator</artifactId>
@@ -71,11 +78,6 @@
 	  <dependency>
 		  <groupId>org.glassfish.hk2</groupId>
 		  <artifactId>hk2-utils</artifactId>
-		  <version>2.2.0-b20</version>
-	  </dependency>
-	  <dependency>
-		  <groupId>org.glassfish.hk2</groupId>
-		  <artifactId>guice-bridge</artifactId>
 		  <version>2.2.0-b20</version>
 	  </dependency>
   </dependencies>
