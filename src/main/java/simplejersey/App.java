@@ -3,7 +3,7 @@ package simplejersey;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -40,21 +40,20 @@ public class App
         // This container (which is a servlet) will route requests to our resources
         ServletContainer sc = new ServletContainer( rc );
 
-        // To register a servlet instance with a ServletHandler we need to wrap the instance
-        // in a holder.
+        // To register a servlet instance we need to wrap it in a holder.
         ServletHolder h = new ServletHolder( sc );
 
-        // Jetty server needs a handler to requests.
-        // Here we will make a handler for servlets
-        ServletHandler sh = new ServletHandler();
-        // and register an jersey resource config (which is wrapped in a ServletContainer which is wrapped in
-        // a ServletHolder)
-        sh.addServletWithMapping( h, "/*" );
+        // Jetty server needs some sort of handler to process requests.
+        ServletContextHandler sch = new ServletContextHandler();
+        // We will take the root path for this application
+        sch.setContextPath( "/" );
+        // All request that enter this context should go to jersey
+        sch.addServlet( h, "/*" );
 
         // The simplest possibly jetty server
         Server server = new Server(8080);
         // and we add our handler that forwards to jersey
-        server.setHandler( sh );
+        server.setHandler( sch );
         // run the simplest jetty server
         server.start();
         server.join();
